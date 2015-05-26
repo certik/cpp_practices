@@ -98,11 +98,45 @@
         <li class="main active"><a href="#example-1">Example 1</a></li>
         
     
+        <li class="main "><a href="#example-2">Example 2</a></li>
+        
+    
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
 
 <h1 id="example-1">Example 1</h1>
+<p>Old:</p>
+<pre><code class="c++">class A {
+private:
+    std::map&lt;int, int&gt; m;
+public:
+    std::map&lt;int, int&gt; *get_access() {
+        return &amp;m;
+    }
+};
+</code></pre>
+
+<p>New:</p>
+<pre><code class="c++">class A {
+private:
+#ifdef DEBUG_MODE
+    UniquePtr&lt;std::map&lt;int, int&gt;&gt; m;
+#else
+    std::map&lt;int, int&gt; m;
+#endif
+public:
+    Ptr&lt;std::map&lt;int, int&gt;&gt; get_access() {
+#ifdef DEBUG_MODE
+        return m.ptr();
+#else
+        return ptrFromRef(m);
+#endif
+    }
+};
+</code></pre>
+
+<h1 id="example-2">Example 2</h1>
 <p>Code (<a href="https://github.com/ricochet-im/ricochet/blob/9f769bf872d4198e7456203c9ffd44963c47fa46/src/core/IdentityManager.cpp#L97]">original</a>):</p>
 <pre><code class="c++">UserIdentity *IdentityManager::lookupHostname(const QString &amp;hostname) const
 {
@@ -180,7 +214,7 @@
 
         <!--
         MkDocs version  : 0.12.2
-        Docs Build Date : 2015-05-26 22:52:36.304934
+        Docs Build Date : 2015-05-26 23:05:28.641116
         -->
     </body>
 </html>
