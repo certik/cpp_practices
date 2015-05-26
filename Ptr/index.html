@@ -101,11 +101,41 @@
         <li class="main "><a href="#example-2">Example 2</a></li>
         
     
+        <li class="main "><a href="#example-3">Example 3</a></li>
+        
+    
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
 
 <h1 id="example-1">Example 1</h1>
+<p>Old:</p>
+<pre><code class="c++">int *a;
+{
+    int b=1;
+    a = &amp;b;
+}
+*a = 5; // Dangling, undefined behavior
+</code></pre>
+
+<p>New:</p>
+<pre><code class="c++">Ptr&lt;int&gt; a;
+{
+#ifdef DEBUG_MODE
+    UniquePtr&lt;int&gt; b(new int(1));
+#else
+    int b=1;
+#endif
+#ifdef DEBUG_MODE
+    a = b.ptr();
+#else
+    a = ptrFromRef(b);
+#endif
+}
+*a = 5; // Dangling, throws an exception in Debug mode
+</code></pre>
+
+<h1 id="example-2">Example 2</h1>
 <p>Old:</p>
 <pre><code class="c++">class A {
 private:
@@ -136,7 +166,7 @@ public:
 };
 </code></pre>
 
-<h1 id="example-2">Example 2</h1>
+<h1 id="example-3">Example 3</h1>
 <p>Code (<a href="https://github.com/ricochet-im/ricochet/blob/9f769bf872d4198e7456203c9ffd44963c47fa46/src/core/IdentityManager.cpp#L97]">original</a>):</p>
 <pre><code class="c++">UserIdentity *IdentityManager::lookupHostname(const QString &amp;hostname) const
 {
@@ -214,7 +244,7 @@ public:
 
         <!--
         MkDocs version  : 0.12.2
-        Docs Build Date : 2015-05-26 23:05:28.641116
+        Docs Build Date : 2015-05-26 23:18:52.787558
         -->
     </body>
 </html>
