@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+
+	<title>Ptr - My Docs</title>
+
+        <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../css/font-awesome-4.0.3.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="../css/highlight.css">
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+            <a class="navbar-brand" href="..">My Docs</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="..">Home</a>
+                    </li>
+                
+                
+                
+                    <li class="active">
+                        <a href="./">Ptr</a>
+                    </li>
+                
+                
+                </ul>
+            
+
+            
+            <!-- Search, Navigation and Repo links -->
+            <ul class="nav navbar-nav navbar-right">
+                
+                
+                <li >
+                    <a rel="next" href="..">
+                        <i class="fa fa-arrow-left"></i> Previous
+                    </a>
+                </li>
+                <li class="disabled">
+                    <a rel="prev" >
+                        Next <i class="fa fa-arrow-right"></i>
+                    </a>
+                </li>
+                
+                
+            </ul>
+            
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            
+                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#example-1">Example 1</a></li>
+        
+    
+    </ul>
+</div></div>
+                <div class="col-md-9" role="main">
+
+<h1 id="example-1">Example 1</h1>
+<p>Code (<a href="https://github.com/ricochet-im/ricochet/blob/9f769bf872d4198e7456203c9ffd44963c47fa46/src/core/IdentityManager.cpp#L97]">original</a>):</p>
+<pre><code class="c++">UserIdentity *IdentityManager::lookupHostname(const QString &amp;hostname) const
+{
+    QString ohost = ContactIDValidator::hostnameFromID(hostname);
+    if (ohost.isNull())
+        ohost = hostname;
+
+    if (!ohost.endsWith(QLatin1String(&quot;.onion&quot;)))
+        ohost.append(QLatin1String(&quot;.onion&quot;));
+
+    for (QList&lt;UserIdentity*&gt;::ConstIterator it = m_identities.begin(); it != m_identities.end(); ++it)
+    {
+        if (ohost.compare((*it)-&gt;hostname(), Qt::CaseInsensitive) == 0)
+            return *it;
+    }
+
+    return 0;
+}
+</code></pre>
+
+<p>Code (<a href="https://github.com/ricochet-im/ricochet/blob/9f769bf872d4198e7456203c9ffd44963c47fa46/src/core/ContactIDValidator.cpp#L65">original</a>):</p>
+<pre><code class="c++">ContactUser *ContactIDValidator::matchingContact(const QString &amp;text) const
+{
+    ContactUser *u = 0;
+    if (m_uniqueIdentity)
+        u = m_uniqueIdentity-&gt;contacts.lookupHostname(text);
+    return u;
+}
+</code></pre>
+
+<p>And (<a href="https://github.com/ricochet-im/ricochet/blob/954d6ed397fcde73f19564d3c2f7f3dfcda7996d/src/core/UserIdentity.cpp#L203">original</a>):</p>
+<pre><code class="c++">void UserIdentity::handleIncomingAuthedConnection(Connection *conn)
+{
+    if (conn-&gt;purpose() != Connection::Purpose::Unknown)
+        return;
+
+    QString clientName = conn-&gt;authenticatedIdentity(Connection::HiddenServiceAuth);
+    if (clientName.isEmpty()) {
+        BUG() &lt;&lt; &quot;Called to handle incoming authed connection without any authed name&quot;;
+        return;
+    }
+
+    ContactUser *user = contacts.lookupHostname(clientName);
+    if (!user) {
+        // This client can start a contact request, for example. The purpose stays unknown, and the
+        // connection will be killed if the purpose isn't changed before the timeout.
+        qDebug() &lt;&lt; &quot;Have an incoming connection authenticated as unknown client&quot; &lt;&lt; clientName;
+        return;
+    }
+
+    qDebug() &lt;&lt; &quot;Incoming connection authenticated as contact&quot; &lt;&lt; user-&gt;uniqueID &lt;&lt; &quot;with hostname&quot; &lt;&lt; clientName;
+    user-&gt;assignConnection(conn);
+
+    if (conn-&gt;parent() != user) {
+        BUG() &lt;&lt; &quot;Connection wasn't claimed after authentication&quot;;
+        conn-&gt;close();
+    }
+}
+</code></pre></div>
+            
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            
+            <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+
+        
+
+        <script src="../js/jquery-1.10.2.min.js"></script>
+        <script src="../js/bootstrap-3.0.3.min.js"></script>
+        <script src="../js/highlight.pack.js"></script>
+        <script src="../js/base.js"></script>
+
+        <!--
+        MkDocs version  : 0.12.2
+        Docs Build Date : 2015-05-26 22:51:12.821276
+        -->
+    </body>
+</html>
