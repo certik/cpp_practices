@@ -1,4 +1,33 @@
 # Example 1
+Old:
+```c++
+int *a;
+{
+    int b=1;
+    a = &b;
+}
+*a = 5; // Dangling, undefined behavior
+```
+
+New:
+```c++
+Ptr<int> a;
+{
+#ifdef DEBUG_MODE
+    UniquePtr<int> b(new int(1));
+#else
+    int b=1;
+#endif
+#ifdef DEBUG_MODE
+    a = b.ptr();
+#else
+    a = ptrFromRef(b);
+#endif
+}
+*a = 5; // Dangling, throws an exception in Debug mode
+```
+
+# Example 2
 
 Old:
 ```c++
@@ -32,7 +61,7 @@ public:
 };
 ```
 
-# Example 2
+# Example 3
 
 Code ([original](https://github.com/ricochet-im/ricochet/blob/9f769bf872d4198e7456203c9ffd44963c47fa46/src/core/IdentityManager.cpp#L97])):
 ```c++
