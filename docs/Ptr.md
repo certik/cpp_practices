@@ -1,5 +1,39 @@
 # Example 1
 
+Old:
+```c++
+class A {
+private:
+    std::map<int, int> m;
+public:
+    std::map<int, int> *get_access() {
+        return &m;
+    }
+};
+```
+
+New:
+```c++
+class A {
+private:
+#ifdef DEBUG_MODE
+    UniquePtr<std::map<int, int>> m;
+#else
+    std::map<int, int> m;
+#endif
+public:
+    Ptr<std::map<int, int>> get_access() {
+#ifdef DEBUG_MODE
+        return m.ptr();
+#else
+        return ptrFromRef(m);
+#endif
+    }
+};
+```
+
+# Example 2
+
 Code ([original](https://github.com/ricochet-im/ricochet/blob/9f769bf872d4198e7456203c9ffd44963c47fa46/src/core/IdentityManager.cpp#L97])):
 ```c++
 UserIdentity *IdentityManager::lookupHostname(const QString &hostname) const
