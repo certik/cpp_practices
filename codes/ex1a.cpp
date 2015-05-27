@@ -1,7 +1,7 @@
 /*
  * Compile and run with:
  *
- * g++ -Wall -Wextra -std=c++11 ex1.cpp && ./a.out
+ * g++ -Wall -Wextra -std=c++11 ex1a.cpp && ./a.out
  *
  */
 
