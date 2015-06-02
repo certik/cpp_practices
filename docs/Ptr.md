@@ -28,6 +28,22 @@ type](http://en.cppreference.com/w/cpp/concept/StandardLayoutType). So it is
 probably a good idea to make it trivially copyable as well as a standard layout
 type.
 
+## Type Traits
+
+If the class is [trivially
+copyable](http://en.cppreference.com/w/cpp/concept/TriviallyCopyable)
+([std::is_trivially_copyable](http://en.cppreference.com/w/cpp/types/is_trivially_copyable))
+as well as has a [trivial default constructor](
+http://en.cppreference.com/w/cpp/language/default_constructor#Trivial_default_constructor)
+([std::is_trivially_default_constructible](http://en.cppreference.com/w/cpp/types/is_default_constructible))
+then it is [trivial](http://en.cppreference.com/w/cpp/concept/TrivialType)
+([std::is_trivial](http://en.cppreference.com/w/cpp/types/is_trivial)).  If in
+addition it is a [standard layout
+type](http://en.cppreference.com/w/cpp/concept/StandardLayoutType)
+([std::is_standard_layout](http://en.cppreference.com/w/cpp/types/is_standard_layout)),
+then it is a [POD](http://en.cppreference.com/w/cpp/concept/PODType)
+([std::is_pod](http://en.cppreference.com/w/cpp/types/is_pod)).
+
 # Example 1
 Old:
 ```c++
