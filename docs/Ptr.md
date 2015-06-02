@@ -1,3 +1,26 @@
+# Performance Notes
+
+In order for a class wrapper to produce equivalent assembly as the wrapped type
+(e.g. a raw pointer, integer, ...), it must satisfy certain traits that in
+general are dependent on the platform ABI.
+
+Any class (no matter how complicated) will be optimized out in all cases,
+except when passed as an argument or returned from a function. The argument
+passing conventions depend on the platform ABI, but in general, raw pointers
+will be passed in registers (i.e. by value), while big classes on a stack (by
+reference).
+
+Example: g++ 4.8.2, 4.9.2, 5.1.0 on 64bit treats a class just like the raw
+pointer (i.e. passed in registers) if and only if the class is
+[trivially
+copyable](http://en.cppreference.com/w/cpp/concept/TriviallyCopyable).
+
+Other platforms might differ. Some authors propose to pass classes by value if
+they are trivially copyable as well as a [standard layout
+type](http://en.cppreference.com/w/cpp/concept/StandardLayoutType). So it is
+probably a good idea to make it trivially copyable as well as a standard layout
+type.
+
 # Example 1
 Old:
 ```c++
