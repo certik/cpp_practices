@@ -97,6 +97,8 @@
     
         <li class="main active"><a href="#performance-notes">Performance Notes</a></li>
         
+            <li><a href="#type-traits">Type Traits</a></li>
+        
     
         <li class="main "><a href="#example-1">Example 1</a></li>
         
@@ -135,6 +137,19 @@ they are trivially copyable as well as a <a href="http://en.cppreference.com/w/c
 type</a>. So it is
 probably a good idea to make it trivially copyable as well as a standard layout
 type.</p>
+<h2 id="type-traits">Type Traits</h2>
+<p>If the class is <a href="http://en.cppreference.com/w/cpp/concept/TriviallyCopyable">trivially
+copyable</a>
+(<a href="http://en.cppreference.com/w/cpp/types/is_trivially_copyable">std::is_trivially_copyable</a>)
+as well as has a <a href="http://en.cppreference.com/w/cpp/language/default_constructor#Trivial_default_constructor">trivial default constructor</a>
+(<a href="http://en.cppreference.com/w/cpp/types/is_default_constructible">std::is_trivially_default_constructible</a>)
+then it is <a href="http://en.cppreference.com/w/cpp/concept/TrivialType">trivial</a>
+(<a href="http://en.cppreference.com/w/cpp/types/is_trivial">std::is_trivial</a>).  If in
+addition it is a <a href="http://en.cppreference.com/w/cpp/concept/StandardLayoutType">standard layout
+type</a>
+(<a href="http://en.cppreference.com/w/cpp/types/is_standard_layout">std::is_standard_layout</a>),
+then it is a <a href="http://en.cppreference.com/w/cpp/concept/PODType">POD</a>
+(<a href="http://en.cppreference.com/w/cpp/types/is_pod">std::is_pod</a>).</p>
 <h1 id="example-1">Example 1</h1>
 <p>Old:</p>
 <pre><code class="c++">int *a;
@@ -271,7 +286,7 @@ public:
 
         <!--
         MkDocs version  : 0.12.2
-        Docs Build Date : 2015-06-02 17:55:09.477439
+        Docs Build Date : 2015-06-02 18:10:43.890957
         -->
     </body>
 </html>
