@@ -9,4 +9,4 @@ Use the menu on top to navigate pages on this website.
 
 ## Project Source Code
 
-Source code available on GitHub: https://github.com/certik/cpp_practices
+Source code available on GitHub: [https://github.com/certik/cpp_practices](https://github.com/certik/cpp_practices)
