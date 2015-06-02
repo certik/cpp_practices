@@ -116,14 +116,20 @@
 (e.g. a raw pointer, integer, ...), it must satisfy certain traits that in
 general are dependent on the platform ABI.</p>
 <p>Any class (no matter how complicated) will be optimized out in all cases,
-except when passed as an argument or returned from a function. The argument
-passing conventions depend on the platform ABI, but in general, raw pointers
-will be passed in registers (i.e. by value), while big classes on a stack (by
+except when passed as an argument to or returned from a function. The argument
+passing conventions depend on the platform ABI, but in general, simple types
+like raw pointers or integers as well as small classes of certain type will be
+passed in registers (i.e. by value), while big classes on a stack (by
 reference).</p>
-<p>Example: g++ 4.8.2, 4.9.2, 5.1.0 on 64bit treats a class just like the raw
-pointer (i.e. passed in registers) if and only if the class is
+<p>Example1: g++ 4.8.2, 4.9.2, 5.1.0 on 64bit will pass classes by value if and
+only if the class is
 <a href="http://en.cppreference.com/w/cpp/concept/TriviallyCopyable">trivially
-copyable</a>.</p>
+copyable</a> and its
+size (measured using <code>sizeof</code>) is less or equal to 16 bytes.</p>
+<p>Example2: icpc 15.0.1 on 64bit will pass by value if and only if the class is
+<a href="http://en.cppreference.com/w/cpp/concept/TriviallyCopyable">trivially
+copyable</a> and size
+less or equal to 16 bytes.</p>
 <p>Other platforms might differ. Some authors propose to pass classes by value if
 they are trivially copyable as well as a <a href="http://en.cppreference.com/w/cpp/concept/StandardLayoutType">standard layout
 type</a>. So it is
@@ -265,7 +271,7 @@ public:
 
         <!--
         MkDocs version  : 0.12.2
-        Docs Build Date : 2015-06-02 05:57:37.810738
+        Docs Build Date : 2015-06-02 17:41:53.648815
         -->
     </body>
 </html>
