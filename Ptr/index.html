@@ -135,8 +135,12 @@ less or equal to 16 bytes.</p>
 <p>Other platforms might differ. Some authors propose to pass classes by value if
 they are trivially copyable as well as a <a href="http://en.cppreference.com/w/cpp/concept/StandardLayoutType">standard layout
 type</a>. So it is
-probably a good idea to make it trivially copyable as well as a standard layout
-type.</p>
+probably a good idea to make it both trivially copyable as well as a standard
+layout type. However, it does not seem to need to have a <a href="http://en.cppreference.com/w/cpp/language/default_constructor#Trivial_default_constructor">trivial default
+constructor</a>
+(i.e. neither
+<a href="http://en.cppreference.com/w/cpp/concept/TrivialType">trivial</a> nor
+a <a href="http://en.cppreference.com/w/cpp/concept/PODType">POD</a> seems to be required).</p>
 <h2 id="type-traits">Type Traits</h2>
 <p>If the class is <a href="http://en.cppreference.com/w/cpp/concept/TriviallyCopyable">trivially
 copyable</a>
@@ -286,7 +290,7 @@ public:
 
         <!--
         MkDocs version  : 0.12.2
-        Docs Build Date : 2015-06-02 18:10:43.890957
+        Docs Build Date : 2015-06-02 18:15:17.618957
         -->
     </body>
 </html>
