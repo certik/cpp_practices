@@ -8,4 +8,4 @@ To see the webpage while developing it:
 
 To deploy to GitHub:
 
-    mkdocs deploy
+    mkdocs gh-deploy
