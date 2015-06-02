@@ -1,17 +1,12 @@
-# Welcome to MkDocs
+# C++ Practices
 
-For full documentation visit [mkdocs.org](http://mkdocs.org).
+This website shows how to develop C++ code that is 100% Debug time safe (i.e.
+no segfaults, undefined behavior or dangling pointers are possible, as long as
+the few simple idioms described here are followed), but as performant in
+the Release mode as manual raw pointer manipulation.
 
-## Commands
+Use the menu on top to navigate pages on this website.
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs help` - Print this help message.
+## Project Source Code
 
-## Project layout
-
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+Source code available on GitHub: https://github.com/certik/cpp_practices
