@@ -5,15 +5,22 @@ In order for a class wrapper to produce equivalent assembly as the wrapped type
 general are dependent on the platform ABI.
 
 Any class (no matter how complicated) will be optimized out in all cases,
-except when passed as an argument or returned from a function. The argument
-passing conventions depend on the platform ABI, but in general, raw pointers
-will be passed in registers (i.e. by value), while big classes on a stack (by
+except when passed as an argument to or returned from a function. The argument
+passing conventions depend on the platform ABI, but in general, simple types
+like raw pointers or integers as well as small classes of certain type will be
+passed in registers (i.e. by value), while big classes on a stack (by
 reference).
 
-Example: g++ 4.8.2, 4.9.2, 5.1.0 on 64bit treats a class just like the raw
-pointer (i.e. passed in registers) if and only if the class is
+Example1: g++ 4.8.2, 4.9.2, 5.1.0 on 64bit will pass classes by value if and
+only if the class is
 [trivially
-copyable](http://en.cppreference.com/w/cpp/concept/TriviallyCopyable).
+copyable](http://en.cppreference.com/w/cpp/concept/TriviallyCopyable) and its
+size (measured using `sizeof`) is less or equal to 16 bytes.
+
+Example2: icpc 15.0.1 on 64bit will pass by value if and only if the class is
+[trivially
+copyable](http://en.cppreference.com/w/cpp/concept/TriviallyCopyable) and size
+less or equal to 16 bytes.
 
 Other platforms might differ. Some authors propose to pass classes by value if
 they are trivially copyable as well as a [standard layout
